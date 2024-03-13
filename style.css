@@ -1,5 +1,5 @@
 body{
     margin: 0;
     padding: 0;
-    background-image: url(./assets/background3.png); 
+    background: linear-gradient(black,rgb(29, 29, 29),rgb(83, 83, 83));
 }
