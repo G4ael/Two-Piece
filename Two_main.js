@@ -1,9 +1,6 @@
 let des =document.getElementById('des').getContext('2d')
 
-let player = new Player(100,500,50,50,'red') //mudar o x,y,h,h,w,a
-//let inimigo = new Inimigo(500,-100,50,50,'yellow') //mudar o x,y,h,h,w,a
-//let inimigo2 = new Inimigo(300,-80,50,50,'yellow') //mudar o x,y,h,h,w,a
-//let inimigo3 = new Inimigo(700,-150,50,50,'yellow') //mudar o x,y,h,h,w,a
+let player = new Player(100,500,60,70,'./assets/frente.png')
 let text1 = new Text(100,100,50,50,'red') //mudar o x,y,h,h,w,a
 let text2 = new Text(100,100,50,50,'red') //mudar o x,y,h,h,w,a
 let text3 = new Text(100,100,50,50,'red') //mudar o x,y,h,h,w,a
@@ -120,7 +117,7 @@ function desenha(){
     text3.des_text(player.pts, 850, 21, 'White', '26px Times')
     text4.des_text(player.vida,100, 21, 'White', '26px Times')
 
-    player.des_obj()
+    player.des_img()
     inimigo.des()
     //inimigo2.des_obj()
     //inimigo3.des_obj()
