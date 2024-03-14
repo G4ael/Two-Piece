@@ -1,6 +1,7 @@
 let des =document.getElementById('des').getContext('2d')
 
 let player = new Player(100,500,50,50,'red') //mudar o x,y,h,h,w,a
+let inimigo = new Inimigo(500,-100,50,50,'yellow') //mudar o x,y,h,h,w,a
 let text1 = new Text(100,100,50,50,'red') //mudar o x,y,h,h,w,a
 let text2 = new Text(100,100,50,50,'red') //mudar o x,y,h,h,w,a
 let text3 = new Text(100,100,50,50,'red') //mudar o x,y,h,h,w,a
@@ -14,24 +15,8 @@ const sondtrack_5 = new Audio('')
 
 let jogar = true
 
-document.addEventListener('keydown',(e)=>{
-    // console.log(e.key)
-    if(e.key === 'a'){
-        player.dir -= 10
-    }else if(e.key === 'd'){
-        player.dir += 10
-    }
-})
-document.addEventListener('keyup', (e)=>{
-    if(e.key === 'a'){
-        player.dir = 0
-    }else if(e.key === 'd'){
-        player.dir = 0
-    }
-})
-
 let grupoTiros = [] 
-let tiro = {
+let tiros = {
     des(){
         grupoTiros.forEach((tiro)=>{
             tiro.des_tiro()
@@ -47,93 +32,45 @@ let tiro = {
     }
 }
 
-let grupoinimigo = []
-let inimigo = {
-    time1: 0, 
-    time2: 0,
-    time3: 0,
-
-    criaInimigo(){
-        this.time1 += 1
-        this.time2 += 1
-        this.time3 += 1
-        let pos_x = (Math.random() * (438 - 2 +1)+2) //arrumar a aleatoriedade
-        let pos_x2 = (Math.random() * (438 - 2 +1)+2) //arrumar a aleatoriedade
-        let pos_x3 = (Math.random() * (438 - 2 +1)+2) //arrumar a aleatoriedade
-        if(this.time1 >=60){
-            this.time1 = 0
-            grupoinimigo.push(new Inimigo(pos_x,-200,50,50,'red'))//colocar a imagem do inimigo
-            console.log(grupoinimigo)
-        }
-        if(this.time2 >=85){
-            this.time2 = 0
-            grupoinimigo.push(new Inimigo(pos_x2,-300,50,50,'red'))//colocar a imagem do inimigo
-            console.log(grupoinimigo)
-        }
-        if(this.time3 >=135){
-            this.time3 = 0
-            grupoinimigo.push(new Inimigo(pos_x3,-400,50,50,'red'))//colocar a imagem do inimigo
-            console.log(grupoinimigo)
-        }
-    },
-    des(){
-        grupoinimigo.forEach((inimigo)=>{
-            inimigo.des_obj()
-        })
-    },
-    destroiInimigo(){
-        grupoTiros.forEach((tiro)=>{
-            grupoDiscos.forEach((inimigo)=>{
-                if(tiro.colid(inimigo)){
-                    grupoTiros.splice(grupoTiros.indexOf(tiro), 1)
-                    grupoDiscos.splice(grupoDiscos.indexOf(inimigo), 1)
-                    nav1.pts +=1
-                }
-            })
-        })
-    },
-    atual(){
-        this.criaInimigo()
-        this.destroiInimigo()
-        grupoDiscos.forEach((inimigo)=>{
-            inimigo.mov()
-            if(inimigo.y >= 710){
-                grupoinimigo.splice(grupoinimigo.indexOf(inimigo),1)
-            }
-        })
+document.addEventListener('keydown',(e)=>{
+    // console.log(e.key)
+    if(e.key === 'a'){
+        player.dir -= 5
+    }else if(e.key === 'd'){
+        player.dir += 5
     }
-}
-
-function game_over(){
-    if(player.vida <= 0){
-        jogar = false
-        //parar todos os sons
-        //tocar musica End Game
+})
+document.addEventListener('keyup', (e)=>{
+    if(e.key === 'a'){
+        player.dir = 0
+    }else if(e.key === 'd'){
+        player.dir = 0
     }
-}
-document.addEventListener('keypress', (ev)=>{
-    if (ev.key === 'l') { //escolher como o tiro vai sair
-        grupoTiros.push(new Tiro(player.x - 4 + player.w / 2, player.y, 8, 16, 'yellow'))
-    }
-    //colocar som?
 })
 
-function colisao(){
-    tirosinimigos.forEach((tiro_inimigo)=>{
-        if(tiro_inimigo.colid(tiro_inimigo)){
-            tirosinimigos.splice(tirosinimigos.indexOf(tiro_inimigo), 1)
-            player.vida -=1
-        }
-    })
-}
+//tiro
+document.addEventListener('keypress', (ev)=>{
+    if (ev.key === 'l') {
+        grupoTiros.push(new Tiro(player.x - 4 + player.w / 2, player.y, 8, 16, 'assets/tiro.png'))
+    }
+})
 
 
 function desenha(){
+    text1.des_text('Pontos: ',760, 20, 'White', '26px Times')
+    text2.des_text('Vida: ',30, 20, 'White', '26px Times')
+    text3.des_text(player.pts, 850, 21, 'White', '26px Times')
+    text4.des_text(player.vida,100, 21, 'White', '26px Times')
+
     player.des_obj()
+    inimigo.des_obj()
+    tiros.des()
 }
 
 function atualiza(){
     player.mov()
+    inimigo.atual_inimigo()
+    tiros.atual()
 }
 
 function main(){

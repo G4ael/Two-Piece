@@ -23,28 +23,29 @@ class Player extends Obj{
             this.x = 0
         }else if(this.x >= 900){
             this.x = 900
-//arrumar os 00
         }
     }
     
 }
 
 class Inimigo extends Obj{
-//arrumar o math.random
-    vel = Math.random() * (6 - 3) + 3
-    mov(){
-        this.y += this.vel // fazer um movimento diferente
-    } 
+    pararY = 180  // posição onde o inimigo vai parar
+
+    atual_inimigo(){
+        if(this.y <= this.pararY){
+            this.y += 0.5
+        }
+    }
 }
 
 class Tiro extends Obj{
-    des_tiro(){
+des_tiro(){
         des.fillStyle = this.a
         des.fillRect(this.x, this.y, this.w, this.h)
     }
 
     mov(){
-        this.y -= 10 // velocidade do tiro
+        this.y -= 10
     }
 }
 
@@ -60,4 +61,3 @@ class Text{
         des.fillText(text,x,y)
     }
 }
-
